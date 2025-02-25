@@ -9,31 +9,25 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class WordCount {
-
-  public static class TokenizerMapper
-       extends Mapper<Object, Text, Text, IntWritable>{
-
+public class WordLength {
+    public static class LengthMapper extends Mapper<Object, Text, IntWritable, IntWritable> {
         private final static IntWritable one = new IntWritable(1);
-        private Text word = new IntWritable();
+        private IntWritable length = new IntWritable();
 
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             String cleanLine = value.toString().replaceAll("[^a-zA-Z ]", "").toLowerCase();
             StringTokenizer itr = new StringTokenizer(cleanLine);
             while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken().length());
-                context.write(word, one);
+                length.set(itr.nextToken().length());
+                context.write(length, one);
             }
         }
     }
 
-  public static class IntSumReducer
-       extends Reducer<Text, IntWritable,Text, IntWritable> {
+    public static class IntSumReducer extends Reducer<IntWritable, IntWritable, IntWritable, IntWritable> {
         private IntWritable result = new IntWritable();
 
-    public void reduce(Text key, Iterable<IntWritable> values,
-                       Context context
-                       ) throws IOException, InterruptedException {
+        public void reduce(IntWritable key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
             int sum = 0;
             for (IntWritable val : values) {
                 sum += val.get();
@@ -47,10 +41,10 @@ public class WordCount {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "word length count");
         job.setJarByClass(WordLength.class);
-        job.setMapperClass(TokenizerMapper.class);
+        job.setMapperClass(LengthMapper.class);
         job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);
-    job.setOutputKeyClass(Text.class);
+        job.setOutputKeyClass(IntWritable.class);
         job.setOutputValueClass(IntWritable.class);
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
