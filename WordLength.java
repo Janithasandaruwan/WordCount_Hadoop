@@ -45,7 +45,7 @@ public class WordLength {
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
     Job job = Job.getInstance(conf, "word length count");
-    job.setJarByClass(WordLengthCount.class);
+    job.setJarByClass(WordLength.class);
     job.setMapperClass(TokenizerMapper.class);
     job.setCombinerClass(IntSumReducer.class);
     job.setReducerClass(IntSumReducer.class);
