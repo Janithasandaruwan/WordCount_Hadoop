@@ -1,0 +1,4 @@
+Hello Hello World!
+I Will Soon Run My First Hadoop MapReduce Program
+Run Forrest Run
+Goodbye World!
