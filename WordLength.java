@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class WordLengthCount {
+public class WordLength {
 
   public static class TokenizerMapper extends Mapper<Object, Text, IntWritable, IntWritable> {
     private final static IntWritable one = new IntWritable(1);
