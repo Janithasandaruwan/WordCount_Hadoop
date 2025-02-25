@@ -49,7 +49,7 @@ public class InitialLetterCount {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "initial letter count");
         job.setJarByClass(InitialLetterCount.class);
-        job.setMapperClass(LetterMapper.class);
+        job.setMapperClass(TokenizerMapper.class);
         job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);
         job.setOutputKeyClass(Text.class);
