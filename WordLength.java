@@ -19,7 +19,7 @@ public class WordLength {
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
       StringTokenizer itr = new StringTokenizer(value.toString());
       while (itr.hasMoreTokens()) {
-        String word = itr.nextToken().replaceAll("[^a-zA-Z]", ""); // Remove punctuation
+        String word = itr.nextToken().replaceAll("[^a-zA-Z]", "");
         if (!word.isEmpty()) {
           wordLength.set(word.length());
           context.write(wordLength, one);
